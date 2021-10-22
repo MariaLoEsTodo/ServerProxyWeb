@@ -8,8 +8,8 @@ For the Systems Engineering communications and networks project at the Pontifici
 ## Authors ✒️
 **Team I**<br />
 **Juan Sebastian Barreto Jiménez** - *Main team* - [jsebastianbarretoj99](https://github.com/jsebastianbarretoj99)<br />
-**Janet Chen He** - *Main team* - [XingYi98 ](https://github.com/squintanae)<br />
+**Janet Chen He** - *Main team* - [XingYi98 ](https://github.com/XingYi98)<br />
 **María José Niño Rodríguez** - *Main team* - [mjninor99](https://github.com/mjninor99)<br />
-**David Santiago Quintana Echavarría** - *Main team* - [squintanae](https://github.com/XingYi98)<br />
+**David Santiago Quintana Echavarría** - *Main team* - [squintanae](https://github.com/squintanae)<br />
 
 ## Instructions for use
