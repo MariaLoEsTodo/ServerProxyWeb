@@ -3,7 +3,7 @@ For the Systems Engineering communications and networks project at the Pontifici
 
 ## Build with 🛠️
 * [Java] - The programming language used
-* [HTTO 1.0] - The protocol used
+* [HTTP 1.0] - The protocol used
 
 ## Authors ✒️
 **Team I**<br />
