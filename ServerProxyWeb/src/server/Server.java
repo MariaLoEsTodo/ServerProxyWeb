@@ -1,5 +1,6 @@
 package server;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -16,6 +17,7 @@ import java.net.ProtocolException;
 import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,7 +34,7 @@ import java.util.Map;
  */
 public class Server {
     
-    private final int PORT = 8080;
+    private final int PORT = 16547;
     private HttpServer httpd;  
     private HttpContext context;
 
@@ -62,14 +64,21 @@ public class Server {
     } // end manageRequest
     
     private static void getRequest(HttpExchange exchange) throws ProtocolException, MalformedURLException, IOException{
-        System.out.println("Entreeeeee");
         showInformationRequest(exchange);
-        System.out.println("Entreeeeee Informa Imp");
-        String urlS = "http://" + exchange.getRequestHeaders().get("Host").get(0);
-        System.out.println("URL ===== " + urlS);
         //urlS = reviewVirtualWeb(urlS);
-        URL url = new URL(urlS);
+        //urlS = "http://test-redes.125mb.com/";
+        URL url = exchange.getRequestURI().toURL();
+        System.out.println("URI: " + url.toString());
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        
+//        Map<String, String> parameters = new HashMap<>();
+//        Headers heads  = exchange.getRequestHeaders();
+//        for(Map.Entry<String, List<String>> s : heads.entrySet()){
+//            parameters.put(s.getKey(), s.getValue().get(0));
+//        }
+        
+        //
+        //
         
 //        Map<String, String> parameters = new HashMap<>();
 //        parameters.put("param1", "val");
@@ -79,9 +88,10 @@ public class Server {
 //        out.writeBytes(ParameterStringBuilder.getParamsString(parameters));
 //        out.flush();
 //        out.close();
-        con.setRequestProperty("Content-Type", "application/json");
+//        con.setRequestProperty("Content-Type", "application/json");
         con.setRequestMethod("GET");
         int status = con.getResponseCode();
+        System.out.println("STatus code: " + status);
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer content = new StringBuffer();
@@ -98,26 +108,24 @@ public class Server {
         System.out.println("Se mando la respuesta: " + contentS);
     } // end getRequest
     
-    private static void copy(InputStream source, OutputStream target) throws IOException {
-        byte[] buf = new byte[8192];
-        int length;
-        while ((length = source.read(buf)) > 0) {
-            target.write(buf, 0, length);
-        }
-    }
-    
     private static void postRequest(HttpExchange exchange){
         
     } // end postRequest
     
-    private static void showInformationRequest(HttpExchange exchange){
+    private static void showInformationRequest(HttpExchange exchange) throws IOException{
         
         System.out.println("Encabezados:");
-        exchange.getRequestHeaders().entrySet()
-                .forEach(System.out::println);
-      
-        System.out.println();
         
+        
+        System.out.println("Encabezados sjsjsjs:");
+        System.out.println(exchange.getRequestHeaders().toString());
+        
+        System.out.println("URI");
+        System.out.println(exchange.getRequestURI());
+        System.out.println("Body");
+        System.out.println(exchange.getRequestBody().toString());  
+        
+        System.out.println();
         System.out.println("Método: " + exchange.getRequestMethod());
         
         System.out.println();
