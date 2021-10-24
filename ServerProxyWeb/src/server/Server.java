@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * PROXY WEB MARÍA
@@ -40,6 +41,7 @@ public class Server {
 
     public Server() throws IOException {
         this.httpd = HttpServer.create(new InetSocketAddress(PORT), 0);
+        
         this.context =  httpd.createContext("/");
         context.setHandler(Server::manageRequest);
         httpd.start();
@@ -48,6 +50,8 @@ public class Server {
     private static void manageRequest(HttpExchange exchange) throws IOException {
         final int CODIGO_RESPUESTA = 200;
         String contenido = "Respuesta desde el servidor HTTP Maria desde clase";
+        
+        System.out.println(" -----Método Inicial: " + exchange.getRequestMethod());
         
         if(exchange.getRequestMethod().equals("GET")){
             getRequest(exchange);
@@ -64,6 +68,40 @@ public class Server {
     } // end manageRequest
     
     private static void getRequest(HttpExchange exchange) throws ProtocolException, MalformedURLException, IOException{
+//        showInformationRequest(exchange);
+        //urlS = reviewVirtualWeb(urlS);
+        //urlS = "http://test-redes.125mb.com/";
+        URL url = exchange.getRequestURI().toURL();
+        System.out.println("URI: " + url.toString());
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        
+        Headers heads  = exchange.getRequestHeaders();
+        for(Map.Entry<String, List<String>> s : heads.entrySet()){
+//            System.out.println("Aqui: " + s.getKey() + " Valor: " + s.getValue());
+            con.setRequestProperty(s.getKey(), s.getValue().toString());
+        }
+        
+        con.setRequestMethod("GET");
+        int status = con.getResponseCode();
+        System.out.println("Status code: " + status);
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+        
+        String contentS = content.toString();
+        exchange.sendResponseHeaders(status,contentS.getBytes().length);
+        OutputStream os = exchange.getResponseBody();
+        os.write(contentS.getBytes());
+        os.close();
+//        System.out.println("Se mando la respuesta: " + contentS);
+    } // end getRequest
+    
+    private static void postRequest(HttpExchange exchange)throws ProtocolException, MalformedURLException, IOException{ 
+        
         showInformationRequest(exchange);
         //urlS = reviewVirtualWeb(urlS);
         //urlS = "http://test-redes.125mb.com/";
@@ -71,27 +109,15 @@ public class Server {
         System.out.println("URI: " + url.toString());
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         
-//        Map<String, String> parameters = new HashMap<>();
-//        Headers heads  = exchange.getRequestHeaders();
-//        for(Map.Entry<String, List<String>> s : heads.entrySet()){
-//            parameters.put(s.getKey(), s.getValue().get(0));
-//        }
+        Headers heads  = exchange.getRequestHeaders();
+        for(Map.Entry<String, List<String>> s : heads.entrySet()){
+            System.out.println("Aqui: " + s.getKey() + " Valor: " + s.getValue());
+            con.setRequestProperty(s.getKey(), s.getValue().toString());
+        }
         
-        //
-        //
-        
-//        Map<String, String> parameters = new HashMap<>();
-//        parameters.put("param1", "val");
-//
-//        con.setDoOutput(true);
-//        DataOutputStream out = new DataOutputStream(con.getOutputStream());
-//        out.writeBytes(ParameterStringBuilder.getParamsString(parameters));
-//        out.flush();
-//        out.close();
-//        con.setRequestProperty("Content-Type", "application/json");
-        con.setRequestMethod("GET");
+        con.setRequestMethod("POST");
         int status = con.getResponseCode();
-        System.out.println("STatus code: " + status);
+        System.out.println("Status code: " + status);
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer content = new StringBuffer();
@@ -106,9 +132,6 @@ public class Server {
         os.write(contentS.getBytes());
         os.close();
         System.out.println("Se mando la respuesta: " + contentS);
-    } // end getRequest
-    
-    private static void postRequest(HttpExchange exchange){
         
     } // end postRequest
     
@@ -117,7 +140,7 @@ public class Server {
         System.out.println("Encabezados:");
         
         
-        System.out.println("Encabezados sjsjsjs:");
+        System.out.println("Encabezados:");
         System.out.println(exchange.getRequestHeaders().toString());
         
         System.out.println("URI");
@@ -133,6 +156,19 @@ public class Server {
         System.out.println("Query:");
         URI uri = exchange.getRequestURI();
         System.out.println(uri.getQuery());
+        
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader((exchange.getRequestBody())));
+        StringBuilder sb = new StringBuilder();
+        String output;
+        while ((output = br.readLine()) != null) {
+          sb.append(output);
+        }
+        System.out.println("Post Body");
+        System.out.println(sb.toString());
+        
+ 
+        
     } // end showInformationRequest
     
 } // end class server
