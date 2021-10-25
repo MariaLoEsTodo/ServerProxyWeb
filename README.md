@@ -11,5 +11,3 @@ For the Systems Engineering communications and networks project at the Pontifici
 **Janet Chen He** - *Main team* - [XingYi98 ](https://github.com/XingYi98)<br />
 **María José Niño Rodríguez** - *Main team* - [mjninor99](https://github.com/mjninor99)<br />
 **David Santiago Quintana Echavarría** - *Main team* - [squintanae](https://github.com/squintanae)<br />
-
-## Instructions for use
