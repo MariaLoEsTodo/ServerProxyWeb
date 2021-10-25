@@ -1,5 +1,21 @@
+/**************************************************************************
+*   Comunicaciones y Redes Proyecto: Proxy Web María
+*   Members:
+*       - Juan Sebastián Barreto Jimenéz
+*       - Janet Chen He
+*       - María José Niño Rodriguez
+*       - David Santiago Quintana Echavarria
+*   File: 
+*       Server.java
+*   Purpose: 
+*       Class for the web proxy that contains the necessary attributes
+*       and methods to act as a server with clients and as a client 
+*       with the internet
+**************************************************************************/
+/* Package */
 package server;
 
+/* Imports of libraries */
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
@@ -12,7 +28,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -20,27 +35,11 @@ import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
-import java.net.URI;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.net.ssl.HttpsURLConnection;
 
-/**
- * PROXY WEB MARÍA
- * 
- * @Members:
- *  - Juan Sebastián Barreto Jimenéz
- *  - Janet Chen He
- *  - María José Niño Rodriguez
- *  - David Santiago Quintana Echavarria
- * 
- * @File: 
- *   Server.java
- */
 public class Server {
     
     private final int PORT = 8080;
@@ -49,16 +48,38 @@ public class Server {
     private final String dirArchi = "/home/juansebastianbarretojimenez/Escritorio/Comunicaciones_y_Redes/Proyecto/ServerProxyWeb/ServerProxyWeb/src/server/virtualA.txt";
     private static ArrayList<FileVirtual> listaFiles = new ArrayList<FileVirtual>();
     
-
     public Server() throws IOException {
         iniSitiosVirtuales();
         this.httpd = HttpServer.create(new InetSocketAddress(PORT), 0);
-        
         this.context =  httpd.createContext("/");
         context.setHandler(Server::manageRequest);
         httpd.start();
-    } // end constructor Server
+    } // end builder Server
     
+    /**************************************************************************
+    *   Function:   manageRequest()
+    *   Purpose:    Routine to select POST and GET requests
+    *   Argumentos:
+    *       exchange:    Object with the client's request.
+    *   Retorno:
+    *       void
+    **************************************************************************/
+    private static void manageRequest(HttpExchange exchange) throws IOException {
+        if(exchange.getRequestMethod().equals("GET")){
+            getRequest(exchange);
+        }else if(exchange.getRequestMethod().equals("POST")){
+            postRequest(exchange);
+        }
+    } // end manageRequest
+    
+    /**************************************************************************
+    *   Function:   iniSitiosVirtuales()
+    *   Purpose:    Routine to read the virtual sites file
+    *   Argumentos:
+    *       void
+    *   Retorno:
+    *       void
+    **************************************************************************/
     private final void iniSitiosVirtuales() throws FileNotFoundException, IOException{
         File file = new File(dirArchi);
         FileReader fr= new FileReader(file);
@@ -70,15 +91,15 @@ public class Server {
             this.listaFiles.add(fv);
         }
     } // end iniSitiosVirtuales
-            
-    private static void manageRequest(HttpExchange exchange) throws IOException {
-        if(exchange.getRequestMethod().equals("GET")){
-            getRequest(exchange);
-        }else if(exchange.getRequestMethod().equals("POST")){
-            postRequest(exchange);
-        }
-    } // end manageRequest
     
+    /**************************************************************************
+    *   Function:   getRequest()
+    *   Purpose:    Routine to handle GET requests
+    *   Argumentos:
+    *       exchange:    Object with the client's request.
+    *   Retorno:
+    *       void
+    **************************************************************************/
     private static void getRequest(HttpExchange exchange) throws ProtocolException, MalformedURLException, IOException{
         FileWriter fichero = null;
         PrintWriter pw = null;
@@ -184,6 +205,14 @@ public class Server {
         }
     } // end getRequest
     
+    /**************************************************************************
+    *   Function:   postRequest()
+    *   Purpose:    Routine to handle POST requests
+    *   Argumentos:
+    *       exchange:    Object with the client's request.
+    *   Retorno:
+    *       void
+    **************************************************************************/
     private static void postRequest(HttpExchange exchange)throws ProtocolException, MalformedURLException, IOException{ 
         FileWriter fichero = null;
         PrintWriter pw = null;
@@ -289,6 +318,14 @@ public class Server {
         }
     } // end postRequest
     
+    /**************************************************************************
+    *   Function:   verificarSV()
+    *   Purpose:    Routine to check if a client's request is a virtual site
+    *   Argumentos:
+    *       host:  String with the name of the requested host.
+    *   Retorno:
+    *       FileVirtual: Object with the virtual site or null.
+    **************************************************************************/
     private static FileVirtual verificarSV (String host){
         FileVirtual res = null;
         System.out.println(Server.listaFiles.size());
@@ -301,4 +338,4 @@ public class Server {
         return res;
     } // end verificarSV
     
-} // end class server
+} // end class Server
