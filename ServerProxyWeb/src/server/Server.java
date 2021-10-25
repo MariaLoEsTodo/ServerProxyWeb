@@ -4,8 +4,12 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import fileVirtual.FileVirtual;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,23 +40,39 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class Server {
     
-    private final int PORT = 16547;
+    private final int PORT = 1000;
     private HttpServer httpd;  
     private HttpContext context;
+    private final String dirArchi = "virtualA.txt";
+    private ArrayList<FileVirtual> listaFiles ; 
+   
 
     public Server() throws IOException {
+        this.listaFiles = new ArrayList<FileVirtual>();
+        
         this.httpd = HttpServer.create(new InetSocketAddress(PORT), 0);
         
         this.context =  httpd.createContext("/");
         context.setHandler(Server::manageRequest);
         httpd.start();
     } // end constructor Server
-    
+    private final void iniSitiosVirtuales() throws FileNotFoundException, IOException{
+        File file = new File(this.dirArchi);
+        FileReader fr= new FileReader(file);
+        BufferedReader br = new BufferedReader(fr);
+        String line;
+        while( (line=br.readLine())!= null ){
+            String[] parts = line.split(",");
+            FileVirtual fv = new FileVirtual(parts[0], parts[1], parts[2]);
+            this.listaFiles.add(fv);
+        }
+    }
+            
     private static void manageRequest(HttpExchange exchange) throws IOException {
         final int CODIGO_RESPUESTA = 200;
         String contenido = "Respuesta desde el servidor HTTP Maria desde clase";
         
-        System.out.println(" -----Método Inicial: " + exchange.getRequestMethod());
+        //System.out.println(" -----Método Inicial: " + exchange.getRequestMethod());
         
         if(exchange.getRequestMethod().equals("GET")){
             getRequest(exchange);
@@ -68,20 +89,22 @@ public class Server {
     } // end manageRequest
     
     private static void getRequest(HttpExchange exchange) throws ProtocolException, MalformedURLException, IOException{
-//        showInformationRequest(exchange);
+        
+        showInformationRequest(exchange);
         //urlS = reviewVirtualWeb(urlS);
         //urlS = "http://test-redes.125mb.com/";
         URL url = exchange.getRequestURI().toURL();
-        System.out.println("URI: " + url.toString());
+   
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         
         Headers heads  = exchange.getRequestHeaders();
         for(Map.Entry<String, List<String>> s : heads.entrySet()){
-//            System.out.println("Aqui: " + s.getKey() + " Valor: " + s.getValue());
             con.setRequestProperty(s.getKey(), s.getValue().toString());
         }
         
         con.setRequestMethod("GET");
+        
+        System.out.println("AQUI VA LA RESPUESTA");
         int status = con.getResponseCode();
         System.out.println("Status code: " + status);
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -91,12 +114,15 @@ public class Server {
             content.append(inputLine);
         }
         in.close();
-        
+        System.out.println();
         String contentS = content.toString();
         exchange.sendResponseHeaders(status,contentS.getBytes().length);
+
         OutputStream os = exchange.getResponseBody();
         os.write(contentS.getBytes());
         os.close();
+        
+       
 //        System.out.println("Se mando la respuesta: " + contentS);
     } // end getRequest
     
@@ -111,11 +137,27 @@ public class Server {
         
         Headers heads  = exchange.getRequestHeaders();
         for(Map.Entry<String, List<String>> s : heads.entrySet()){
-            System.out.println("Aqui: " + s.getKey() + " Valor: " + s.getValue());
+            //System.out.println("Aqui: " + s.getKey() + " Valor: " + s.getValue());
             con.setRequestProperty(s.getKey(), s.getValue().toString());
         }
         
+        /* aqui va lo de Barreto
+        Map<String, List<String>> parameters = new HashMap<>();
+        Headers heads2  = exchange.getRequestHeaders();
+        for(Map.Entry<String, List<String>> s : heads2.entrySet()){
+            parameters.put(s.getKey(), s.getValue());
+        }
+
+        con.setDoOutput(true); 
+        DataOutputStream out = new DataOutputStream(con.getOutputStream()); 
+        out.writeBytes(ParameterStringBuilder.getParamsString(parameters)); 
+        out.flush();
+        out.close();
+       */
         con.setRequestMethod("POST");
+        
+        System.out.println("AQUI VA LA RESPUESTA");
+        
         int status = con.getResponseCode();
         System.out.println("Status code: " + status);
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -126,23 +168,50 @@ public class Server {
         }
         in.close();
         
+        /*
+        BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
+        StringBuilder sb = new StringBuilder();
+        String output;
+        while ((output = br.readLine()) != null) {
+          //content.append(output);
+        }
+        
+        System.out.println("Post Body");
+        System.out.println(sb.toString());
+        */
+        
         String contentS = content.toString();
+        
         exchange.sendResponseHeaders(status,contentS.getBytes().length);
         OutputStream os = exchange.getResponseBody();
         os.write(contentS.getBytes());
         os.close();
         System.out.println("Se mando la respuesta: " + contentS);
         
+        
+        
     } // end postRequest
     
+    private FileVirtual verificarSV (String host){
+        FileVirtual res = null;
+        for(FileVirtual f : this.listaFiles){
+            if( f.getNombreHostVirtual().equals(host) ){
+                return f;
+            }
+        }
+        return res;
+    }
+    
     private static void showInformationRequest(HttpExchange exchange) throws IOException{
+        System.out.println("Metodo: " + exchange.getRequestMethod());
+        System.out.println();
+        System.out.println("  Encabezados:");
+        System.out.println();
+        exchange.getRequestHeaders().entrySet().forEach(System.out::println);
         
-        System.out.println("Encabezados:");
-        
-        
-        System.out.println("Encabezados:");
-        System.out.println(exchange.getRequestHeaders().toString());
-        
+//        System.out.println("Encabezados:");
+//        System.out.println(exchange.getRequestHeaders().toString());
+        /*
         System.out.println("URI");
         System.out.println(exchange.getRequestURI());
         System.out.println("Body");
@@ -166,8 +235,21 @@ public class Server {
         }
         System.out.println("Post Body");
         System.out.println(sb.toString());
-        
  
+ 
+        */
+        
+        if(exchange.getRequestMethod().equals("POST")){
+            BufferedReader br = new BufferedReader(new InputStreamReader((exchange.getRequestBody())));
+            StringBuilder sb = new StringBuilder();
+            String output;
+            while ((output = br.readLine()) != null) {
+              sb.append(output);
+            }
+            System.out.println("  Post Body:");
+            System.out.println(sb.toString());
+            System.out.println();
+        }
         
     } // end showInformationRequest
     
