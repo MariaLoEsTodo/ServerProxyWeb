@@ -40,16 +40,15 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class Server {
     
-    private final int PORT = 1000;
+    private final int PORT = 8080;
     private HttpServer httpd;  
     private HttpContext context;
     private final String dirArchi = "virtualA.txt";
-    private ArrayList<FileVirtual> listaFiles ; 
+    private static ArrayList<FileVirtual> listaFiles = new ArrayList<FileVirtual>();
    
 
     public Server() throws IOException {
-        this.listaFiles = new ArrayList<FileVirtual>();
-        
+        iniSitiosVirtuales();
         this.httpd = HttpServer.create(new InetSocketAddress(PORT), 0);
         
         this.context =  httpd.createContext("/");
@@ -57,7 +56,7 @@ public class Server {
         httpd.start();
     } // end constructor Server
     private final void iniSitiosVirtuales() throws FileNotFoundException, IOException{
-        File file = new File(this.dirArchi);
+        File file = new File("C:\\Users\\david\\OneDrive\\Documentos\\Universidad\\Noveno\\Redes\\Proyecto\\ServerProxyWeb\\ServerProxyWeb\\src\\server\\virtualA.txt");
         FileReader fr= new FileReader(file);
         BufferedReader br = new BufferedReader(fr);
         String line;
@@ -90,17 +89,42 @@ public class Server {
     
     private static void getRequest(HttpExchange exchange) throws ProtocolException, MalformedURLException, IOException{
         
-        showInformationRequest(exchange);
+        
         //urlS = reviewVirtualWeb(urlS);
         //urlS = "http://test-redes.125mb.com/";
-        URL url = exchange.getRequestURI().toURL();
-   
+        String mod="";
+        String nHost = "";
+        boolean cambio= false;
+
+        String urlS = exchange.getRequestURI().toString();
+        FileVirtual fAux = verificarSV( exchange.getRequestHeaders().get("Host").get(0)) ;
+        if(fAux != null){
+            cambio = true;
+            mod = fAux.getHostReal() + "/" + fAux.getDirectorio();     
+            nHost = fAux.getHostReal();
+            urlS = urlS.replace(fAux.getNombreHostVirtual(),mod);
+           
+        }
+        URL url;
+        if(cambio == false){
+            url  = exchange.getRequestURI().toURL();
+        }else{
+            System.err.println(" entre al coso URLLL_ "+ urlS);
+            url =  new URL(urlS);
+        }
+        
+        
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         
         Headers heads  = exchange.getRequestHeaders();
         for(Map.Entry<String, List<String>> s : heads.entrySet()){
-            con.setRequestProperty(s.getKey(), s.getValue().toString());
-        }
+            if(s.getKey().contains("Host") && cambio== true){
+                con.setRequestProperty(s.getKey(), nHost);
+            }else{
+                con.setRequestProperty(s.getKey(), s.getValue().toString());
+            }
+            
+        }        
         
         con.setRequestMethod("GET");
         
@@ -128,7 +152,7 @@ public class Server {
     
     private static void postRequest(HttpExchange exchange)throws ProtocolException, MalformedURLException, IOException{ 
         
-        showInformationRequest(exchange);
+        //showInformationRequest(exchange);
         //urlS = reviewVirtualWeb(urlS);
         //urlS = "http://test-redes.125mb.com/";
         URL url = exchange.getRequestURI().toURL();
@@ -192,9 +216,11 @@ public class Server {
         
     } // end postRequest
     
-    private FileVirtual verificarSV (String host){
+    private static FileVirtual verificarSV (String host){
         FileVirtual res = null;
-        for(FileVirtual f : this.listaFiles){
+        System.out.println(Server.listaFiles.size());
+        for(FileVirtual f : Server.listaFiles){
+      
             if( f.getNombreHostVirtual().equals(host) ){
                 return f;
             }
@@ -208,6 +234,8 @@ public class Server {
         System.out.println("  Encabezados:");
         System.out.println();
         exchange.getRequestHeaders().entrySet().forEach(System.out::println);
+        
+        
         
 //        System.out.println("Encabezados:");
 //        System.out.println(exchange.getRequestHeaders().toString());
@@ -238,7 +266,6 @@ public class Server {
  
  
         */
-        
         if(exchange.getRequestMethod().equals("POST")){
             BufferedReader br = new BufferedReader(new InputStreamReader((exchange.getRequestBody())));
             StringBuilder sb = new StringBuilder();
