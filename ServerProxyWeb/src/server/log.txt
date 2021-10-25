@@ -1,0 +1,311 @@
+
+
+Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/login.php HTTP/1.1
+Headers:
+Accept-encoding=[gzip, deflate]
+Accept=[text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9]
+Referer=[http://fsmsolutions.125mb.com/index.php]
+Host=[fsmsolutions.125mb.com]
+User-agent=[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]
+Accept-language=[es-CO,es-419;q=0.9,es;q=0.8]
+Proxy-connection=[keep-alive]
+Upgrade-insecure-requests=[1]
+Sec-gpc=[1]
+
+Reenvio Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/login.php HTTP/1.1
+Headers:
+Accept-encoding=[[gzip, deflate]]
+Accept-language=[[es-CO,es-419;q=0.9,es;q=0.8]]
+Proxy-connection=[[keep-alive]]
+Accept=[[text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9]]
+Upgrade-insecure-requests=[[1]]
+Referer=[[http://fsmsolutions.125mb.com/index.php]]
+User-agent=[[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]]
+
+Respuesta del servidor
+HTTP/1.1 200
+Date: 1635150869000
+Last modification: 0
+Content-Length : 5712
+Content Type: text/html; charset=UTF-8
+
+
+Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/css/master.css HTTP/1.1
+Headers:
+Accept-encoding=[gzip, deflate]
+Accept=[text/css,*/*;q=0.1]
+Referer=[http://fsmsolutions.125mb.com/login.php]
+Host=[fsmsolutions.125mb.com]
+User-agent=[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]
+Accept-language=[es-CO,es-419;q=0.9,es;q=0.8]
+Proxy-connection=[keep-alive]
+Sec-gpc=[1]
+
+Reenvio Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/css/master.css HTTP/1.1
+Headers:
+Accept-encoding=[[gzip, deflate]]
+Accept-language=[[es-CO,es-419;q=0.9,es;q=0.8]]
+Proxy-connection=[[keep-alive]]
+Accept=[[text/css,*/*;q=0.1]]
+Referer=[[http://fsmsolutions.125mb.com/login.php]]
+User-agent=[[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]]
+
+Respuesta del servidor
+HTTP/1.1 200
+Date: 1635150870000
+Last modification: 1632894197000
+Content-Length : 1510
+Content Type: text/css
+
+
+Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/logo2.PNG HTTP/1.1
+Headers:
+Accept-encoding=[gzip, deflate]
+Accept=[image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8]
+Referer=[http://fsmsolutions.125mb.com/login.php]
+Host=[fsmsolutions.125mb.com]
+User-agent=[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]
+Accept-language=[es-CO,es-419;q=0.9,es;q=0.8]
+Proxy-connection=[keep-alive]
+Sec-gpc=[1]
+
+Reenvio Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/logo2.PNG HTTP/1.1
+Headers:
+Accept-encoding=[[gzip, deflate]]
+Accept-language=[[es-CO,es-419;q=0.9,es;q=0.8]]
+Proxy-connection=[[keep-alive]]
+Accept=[[image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8]]
+Referer=[[http://fsmsolutions.125mb.com/login.php]]
+User-agent=[[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]]
+
+Respuesta del servidor
+HTTP/1.1 200
+Date: 1635150870000
+Last modification: 1632795588000
+Content-Length : 10629
+Content Type: image/png
+
+
+Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/img/logo.jpg HTTP/1.1
+Headers:
+Accept-encoding=[gzip, deflate]
+Accept=[image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8]
+Referer=[http://fsmsolutions.125mb.com/login.php]
+Host=[fsmsolutions.125mb.com]
+User-agent=[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]
+Accept-language=[es-CO,es-419;q=0.9,es;q=0.8]
+Proxy-connection=[keep-alive]
+Sec-gpc=[1]
+
+Reenvio Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/img/logo.jpg HTTP/1.1
+Headers:
+Accept-encoding=[[gzip, deflate]]
+Accept-language=[[es-CO,es-419;q=0.9,es;q=0.8]]
+Proxy-connection=[[keep-alive]]
+Accept=[[image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8]]
+Referer=[[http://fsmsolutions.125mb.com/login.php]]
+User-agent=[[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]]
+
+Respuesta del servidor
+HTTP/1.1 200
+Date: 1635150870000
+Last modification: 1632799258000
+Content-Length : 16256
+Content Type: image/jpeg
+
+
+Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/logo.jpg HTTP/1.1
+Headers:
+Accept-encoding=[gzip, deflate]
+Accept=[image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8]
+Referer=[http://fsmsolutions.125mb.com/login.php]
+Host=[fsmsolutions.125mb.com]
+User-agent=[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]
+Accept-language=[es-CO,es-419;q=0.9,es;q=0.8]
+Proxy-connection=[keep-alive]
+Sec-gpc=[1]
+
+Reenvio Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/logo.jpg HTTP/1.1
+Headers:
+Accept-encoding=[[gzip, deflate]]
+Accept-language=[[es-CO,es-419;q=0.9,es;q=0.8]]
+Proxy-connection=[[keep-alive]]
+Accept=[[image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8]]
+Referer=[[http://fsmsolutions.125mb.com/login.php]]
+User-agent=[[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]]
+
+Respuesta del servidor
+HTTP/1.1 200
+Date: 1635150871000
+Last modification: 1632799051000
+Content-Length : 16256
+Content Type: image/jpeg
+
+
+Solicitud Servidor Proxy Web:
+POST http://fsmsolutions.125mb.com/login.php HTTP/1.1
+Headers:
+Origin=[http://fsmsolutions.125mb.com]
+Accept-encoding=[gzip, deflate]
+Accept=[text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9]
+Referer=[http://fsmsolutions.125mb.com/login.php]
+Host=[fsmsolutions.125mb.com]
+User-agent=[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]
+Content-type=[application/x-www-form-urlencoded]
+Accept-language=[es-CO,es-419;q=0.9,es;q=0.8]
+Proxy-connection=[keep-alive]
+Upgrade-insecure-requests=[1]
+Sec-gpc=[1]
+Content-length=[55]
+Cache-control=[max-age=0]
+Origin=[http://fsmsolutions.125mb.com]
+Accept-encoding=[gzip, deflate]
+Accept=[text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9]
+Referer=[http://fsmsolutions.125mb.com/login.php]
+Host=[fsmsolutions.125mb.com]
+User-agent=[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]
+Content-type=[application/x-www-form-urlencoded]
+Accept-language=[es-CO,es-419;q=0.9,es;q=0.8]
+Proxy-connection=[keep-alive]
+Upgrade-insecure-requests=[1]
+Sec-gpc=[1]
+Content-length=[55]
+Cache-control=[max-age=0]
+Body:
+[B@60fef647
+Respuesta Servidor Proxy Web:
+HTTP/1.1 200
+Date: 1635150877000
+Last modification: 0
+Content-Length : 5775
+Content Type: text/html; charset=UTF-8
+
+
+Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/css/master.css HTTP/1.1
+Headers:
+Accept-encoding=[gzip, deflate]
+Accept=[text/css,*/*;q=0.1]
+Referer=[http://fsmsolutions.125mb.com/login.php]
+Host=[fsmsolutions.125mb.com]
+User-agent=[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]
+Accept-language=[es-CO,es-419;q=0.9,es;q=0.8]
+Proxy-connection=[keep-alive]
+Sec-gpc=[1]
+
+Reenvio Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/css/master.css HTTP/1.1
+Headers:
+Accept-encoding=[[gzip, deflate]]
+Accept-language=[[es-CO,es-419;q=0.9,es;q=0.8]]
+Proxy-connection=[[keep-alive]]
+Accept=[[text/css,*/*;q=0.1]]
+Referer=[[http://fsmsolutions.125mb.com/login.php]]
+User-agent=[[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]]
+
+Respuesta del servidor
+HTTP/1.1 200
+Date: 1635150878000
+Last modification: 1632894197000
+Content-Length : 1510
+Content Type: text/css
+
+
+Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/logo2.PNG HTTP/1.1
+Headers:
+Accept-encoding=[gzip, deflate]
+Accept=[image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8]
+Referer=[http://fsmsolutions.125mb.com/login.php]
+Host=[fsmsolutions.125mb.com]
+User-agent=[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]
+Accept-language=[es-CO,es-419;q=0.9,es;q=0.8]
+Proxy-connection=[keep-alive]
+Sec-gpc=[1]
+
+Reenvio Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/logo2.PNG HTTP/1.1
+Headers:
+Accept-encoding=[[gzip, deflate]]
+Accept-language=[[es-CO,es-419;q=0.9,es;q=0.8]]
+Proxy-connection=[[keep-alive]]
+Accept=[[image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8]]
+Referer=[[http://fsmsolutions.125mb.com/login.php]]
+User-agent=[[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]]
+
+Respuesta del servidor
+HTTP/1.1 200
+Date: 1635150878000
+Last modification: 1632795588000
+Content-Length : 10629
+Content Type: image/png
+
+
+Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/img/logo.jpg HTTP/1.1
+Headers:
+Accept-encoding=[gzip, deflate]
+Accept=[image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8]
+Referer=[http://fsmsolutions.125mb.com/login.php]
+Host=[fsmsolutions.125mb.com]
+User-agent=[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]
+Accept-language=[es-CO,es-419;q=0.9,es;q=0.8]
+Proxy-connection=[keep-alive]
+Sec-gpc=[1]
+
+Reenvio Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/img/logo.jpg HTTP/1.1
+Headers:
+Accept-encoding=[[gzip, deflate]]
+Accept-language=[[es-CO,es-419;q=0.9,es;q=0.8]]
+Proxy-connection=[[keep-alive]]
+Accept=[[image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8]]
+Referer=[[http://fsmsolutions.125mb.com/login.php]]
+User-agent=[[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]]
+
+Respuesta del servidor
+HTTP/1.1 200
+Date: 1635150878000
+Last modification: 1632799258000
+Content-Length : 16256
+Content Type: image/jpeg
+
+
+Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/logo.jpg HTTP/1.1
+Headers:
+Accept-encoding=[gzip, deflate]
+Accept=[image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8]
+Referer=[http://fsmsolutions.125mb.com/login.php]
+Host=[fsmsolutions.125mb.com]
+User-agent=[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]
+Accept-language=[es-CO,es-419;q=0.9,es;q=0.8]
+Proxy-connection=[keep-alive]
+Sec-gpc=[1]
+
+Reenvio Solicitud Servidor Proxy Web:
+GET http://fsmsolutions.125mb.com/logo.jpg HTTP/1.1
+Headers:
+Accept-encoding=[[gzip, deflate]]
+Accept-language=[[es-CO,es-419;q=0.9,es;q=0.8]]
+Proxy-connection=[[keep-alive]]
+Accept=[[image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8]]
+Referer=[[http://fsmsolutions.125mb.com/login.php]]
+User-agent=[[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36]]
+
+Respuesta del servidor
+HTTP/1.1 200
+Date: 1635150879000
+Last modification: 1632799051000
+Content-Length : 16256
+Content Type: image/jpeg

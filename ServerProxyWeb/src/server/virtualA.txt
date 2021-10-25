@@ -1,4 +1,4 @@
-r.paez,sophia.javeriana.edu.co,~rpaez/
-e.ruiz,sophia.javeriana.edu.co,~eruiz/
+r.paez,sophia.javeriana.edu.co,~rpaez
+e.ruiz,sophia.javeriana.edu.co,~eruiz
 www.sidar.org,aerasens.125mb.com,ingreso.php
-juan_barreto,192.168.0.24/redes-test,juan_barreto/
+juan_barreto,192.168.0.24/redes-test,juan_barreto
