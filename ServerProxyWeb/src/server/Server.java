@@ -20,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -151,69 +152,46 @@ public class Server {
     } // end getRequest
     
     private static void postRequest(HttpExchange exchange)throws ProtocolException, MalformedURLException, IOException{ 
-        
-        //showInformationRequest(exchange);
-        //urlS = reviewVirtualWeb(urlS);
-        //urlS = "http://test-redes.125mb.com/";
+        showInformationRequest(exchange);
+        /// Make Requests
         URL url = exchange.getRequestURI().toURL();
-        System.out.println("URI: " + url.toString());
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        
-        Headers heads  = exchange.getRequestHeaders();
-        for(Map.Entry<String, List<String>> s : heads.entrySet()){
-            //System.out.println("Aqui: " + s.getKey() + " Valor: " + s.getValue());
-            con.setRequestProperty(s.getKey(), s.getValue().toString());
-        }
-        
-        /* aqui va lo de Barreto
-        Map<String, List<String>> parameters = new HashMap<>();
-        Headers heads2  = exchange.getRequestHeaders();
-        for(Map.Entry<String, List<String>> s : heads2.entrySet()){
-            parameters.put(s.getKey(), s.getValue());
-        }
-
-        con.setDoOutput(true); 
-        DataOutputStream out = new DataOutputStream(con.getOutputStream()); 
-        out.writeBytes(ParameterStringBuilder.getParamsString(parameters)); 
-        out.flush();
-        out.close();
-       */
+        BufferedReader br = new BufferedReader(new InputStreamReader((exchange.getRequestBody())));
+        StringBuilder sb = new StringBuilder();
+        String output;
+        while ((output = br.readLine()) != null)
+          sb.append(output);
         con.setRequestMethod("POST");
-        
-        System.out.println("AQUI VA LA RESPUESTA");
-        
+        con.setDoOutput(true);
+        con.setInstanceFollowRedirects(false);
+        Headers heads  = exchange.getRequestHeaders();
+        for(Map.Entry<String, List<String>> s : heads.entrySet())
+            con.setRequestProperty(s.getKey(), s.getValue().toString());
+        byte[] postData = sb.toString().getBytes();
+        int    postDataLength = postData.length;
+        con.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded"); 
+        con.setRequestProperty( "Content-Length", Integer.toString( postDataLength ));
+        con.setRequestProperty("charset", "utf-8");
+        con.setUseCaches( false );
+        try( DataOutputStream wr = new DataOutputStream( con.getOutputStream())) {
+           wr.write( postData );
+           wr.close();
+        }
+        /// Read Response
         int status = con.getResponseCode();
         System.out.println("Status code: " + status);
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer content = new StringBuffer();
-        while ((inputLine = in.readLine()) != null) {
+        while ((inputLine = in.readLine()) != null)
             content.append(inputLine);
-        }
         in.close();
-        
-        /*
-        BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
-        StringBuilder sb = new StringBuilder();
-        String output;
-        while ((output = br.readLine()) != null) {
-          //content.append(output);
-        }
-        
-        System.out.println("Post Body");
-        System.out.println(sb.toString());
-        */
-        
         String contentS = content.toString();
-        
         exchange.sendResponseHeaders(status,contentS.getBytes().length);
         OutputStream os = exchange.getResponseBody();
         os.write(contentS.getBytes());
         os.close();
         System.out.println("Se mando la respuesta: " + contentS);
-        
-        
-        
     } // end postRequest
     
     private static FileVirtual verificarSV (String host){
@@ -229,6 +207,7 @@ public class Server {
     }
     
     private static void showInformationRequest(HttpExchange exchange) throws IOException{
+        if(exchange.getRequestMethod().equals("POST")){
         System.out.println("Metodo: " + exchange.getRequestMethod());
         System.out.println();
         System.out.println("  Encabezados:");
@@ -266,18 +245,20 @@ public class Server {
  
  
         */
-        if(exchange.getRequestMethod().equals("POST")){
-            BufferedReader br = new BufferedReader(new InputStreamReader((exchange.getRequestBody())));
-            StringBuilder sb = new StringBuilder();
-            String output;
-            while ((output = br.readLine()) != null) {
-              sb.append(output);
-            }
-            System.out.println("  Post Body:");
-            System.out.println(sb.toString());
-            System.out.println();
-        }
         
+//        if(exchange.getRequestMethod().equals("POST")){
+//            BufferedReader br = new BufferedReader(new InputStreamReader((exchange.getRequestBody())));
+//            StringBuilder sb = new StringBuilder();
+//            String output;
+//            while ((output = br.readLine()) != null) {
+//              sb.append(output);
+//            }
+//            System.out.println("  Post Body:");
+//            System.out.println(sb.toString());
+//            System.out.println();
+//        }
+//        
     } // end showInformationRequest
+    }
     
 } // end class server
