@@ -20,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +41,7 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class Server {
     
-    private final int PORT = 1000;
+    private final int PORT = 8080;
     private HttpServer httpd;  
     private HttpContext context;
     private final String dirArchi = "virtualA.txt";
@@ -135,11 +136,57 @@ public class Server {
         System.out.println("URI: " + url.toString());
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         
+        BufferedReader br = new BufferedReader(new InputStreamReader((exchange.getRequestBody())));
+        StringBuilder sb = new StringBuilder();
+        String output;
+        System.out.println("lECTURA PARAMS");
+        while ((output = br.readLine()) != null) {
+          sb.append(output);
+          System.out.println("JAJA : " + output);
+        }
+        
+        con.setRequestMethod("POST");
+        con.setDoOutput(true);
+        con.setInstanceFollowRedirects(false);
         Headers heads  = exchange.getRequestHeaders();
         for(Map.Entry<String, List<String>> s : heads.entrySet()){
-            //System.out.println("Aqui: " + s.getKey() + " Valor: " + s.getValue());
+            //System.out.println("Key: " + s.getKey() + " Valor: " + s.getValue());
             con.setRequestProperty(s.getKey(), s.getValue().toString());
         }
+        con.setRequestProperty("charset", "utf-8");
+        con.setUseCaches(false);
+        
+        String urlParameters  = "email=juan_barreto%40javeriana.edu.co&password=SMARTshelf2021";
+        byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
+        int    postDataLength = postData.length;
+        //URL    url            = new URL( request );
+        //HttpURLConnection conn= (HttpURLConnection) url.openConnection();           
+        con.setRequestMethod( "POST" );
+        con.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded"); 
+        con.setRequestProperty( "Content-Length", Integer.toString( postDataLength ));
+        con.setUseCaches( false );
+        try( DataOutputStream wr = new DataOutputStream( con.getOutputStream())) {
+           wr.write( postData );
+           wr.close();
+        }
+        
+        
+//        String aux = "email=juan_barreto%40javeriana.edu.co&password=SMARTshelf2021";
+//        
+//        Map<String,String> parameters = new HashMap<>();
+//        parameters.put("email", "email=juan_barreto%40javeriana.edu.co");
+//        parameters.put("password", "SMARTshelf2021");
+//        
+//        DataOutputStream out = new DataOutputStream(con.getOutputStream()); 
+//        out.writeBytes(ParameterStringBuilder.getParamsString(parameters));
+//        out.flush();
+        
+ 
+        //out.close();
+        
+//        try (OutputStream os = con.getOutputStream()) {
+//            os.write(aux.getBytes(StandardCharsets.UTF_8));
+//        }
         
         /* aqui va lo de Barreto
         Map<String, List<String>> parameters = new HashMap<>();
@@ -147,14 +194,12 @@ public class Server {
         for(Map.Entry<String, List<String>> s : heads2.entrySet()){
             parameters.put(s.getKey(), s.getValue());
         }
-
         con.setDoOutput(true); 
         DataOutputStream out = new DataOutputStream(con.getOutputStream()); 
         out.writeBytes(ParameterStringBuilder.getParamsString(parameters)); 
         out.flush();
         out.close();
        */
-        con.setRequestMethod("POST");
         
         System.out.println("AQUI VA LA RESPUESTA");
         
@@ -203,6 +248,7 @@ public class Server {
     }
     
     private static void showInformationRequest(HttpExchange exchange) throws IOException{
+        if(exchange.getRequestMethod().equals("POST")){
         System.out.println("Metodo: " + exchange.getRequestMethod());
         System.out.println();
         System.out.println("  Encabezados:");
@@ -239,18 +285,19 @@ public class Server {
  
         */
         
-        if(exchange.getRequestMethod().equals("POST")){
-            BufferedReader br = new BufferedReader(new InputStreamReader((exchange.getRequestBody())));
-            StringBuilder sb = new StringBuilder();
-            String output;
-            while ((output = br.readLine()) != null) {
-              sb.append(output);
-            }
-            System.out.println("  Post Body:");
-            System.out.println(sb.toString());
-            System.out.println();
-        }
-        
+//        if(exchange.getRequestMethod().equals("POST")){
+//            BufferedReader br = new BufferedReader(new InputStreamReader((exchange.getRequestBody())));
+//            StringBuilder sb = new StringBuilder();
+//            String output;
+//            while ((output = br.readLine()) != null) {
+//              sb.append(output);
+//            }
+//            System.out.println("  Post Body:");
+//            System.out.println(sb.toString());
+//            System.out.println();
+//        }
+//        
     } // end showInformationRequest
+    }
     
 } // end class server
