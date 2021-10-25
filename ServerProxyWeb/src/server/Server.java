@@ -57,7 +57,7 @@ public class Server {
         httpd.start();
     } // end constructor Server
     private final void iniSitiosVirtuales() throws FileNotFoundException, IOException{
-        File file = new File("C:\\Users\\david\\OneDrive\\Documentos\\Universidad\\Noveno\\Redes\\Proyecto\\ServerProxyWeb\\ServerProxyWeb\\src\\server\\virtualA.txt");
+        File file = new File("/home/juansebastianbarretojimenez/Escritorio/Comunicaciones_y_Redes/Proyecto/ServerProxyWeb/ServerProxyWeb/src/server/virtualA.txt");
         FileReader fr= new FileReader(file);
         BufferedReader br = new BufferedReader(fr);
         String line;
