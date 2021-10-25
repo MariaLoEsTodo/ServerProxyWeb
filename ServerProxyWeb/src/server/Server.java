@@ -36,6 +36,7 @@ import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -115,8 +116,12 @@ public class Server {
             pw.println(exchange.getRequestMethod() + " " + exchange.getRequestURI() + " " + exchange.getProtocol());
             System.out.println("Headers:");
             pw.println("Headers:");
-            exchange.getRequestHeaders().entrySet().forEach(System.out::println);
-            exchange.getRequestHeaders().entrySet().forEach(pw::println);
+            for(Map.Entry<String, List<String>> head: exchange.getRequestHeaders().entrySet()){
+                if(head.getValue() != null){
+                    System.out.println(head.getKey() + "=" + head.getValue());
+                    pw.println(head.getKey() + "=" + head.getValue());
+                }
+            }
             String mod="";
             String nHost = "";
             boolean cambio= false;
@@ -158,9 +163,12 @@ public class Server {
             pw.println(exchange.getRequestMethod() + " " + url.toString() + " " + exchange.getProtocol());
             System.out.println("Headers:");
             pw.println("Headers:");
-            con.getRequestProperties().entrySet().forEach(System.out::println);
-            con.getRequestProperties().entrySet().forEach(pw::println);
-
+            for(Map.Entry<String, List<String>> head: exchange.getRequestHeaders().entrySet()){
+                if(head.getValue() != null){
+                    System.out.println(head.getKey() + "=" + head.getValue());
+                    pw.println(head.getKey() + "=" + head.getValue());
+                }
+            }
             con.setRequestMethod("GET");
             int status = con.getResponseCode();
 
@@ -170,29 +178,33 @@ public class Server {
             pw.println("Respuesta del servidor");
             System.out.println( exchange.getProtocol()+" " + con.getResponseCode());
             pw.println( exchange.getProtocol()+" " + con.getResponseCode());
-            System.out.println("Date: " + con.getDate());
-            pw.println("Date: " + con.getDate());
-            System.out.println("Last modification: " + con.getLastModified());
-            pw.println("Last modification: " + con.getLastModified());
-            System.out.println("Content-Length : " +con.getContentLength());
-            pw.println("Content-Length : " +con.getContentLength());
-            System.out.println("Content Type: " +con.getContentType());
-            pw.println("Content Type: " +con.getContentType());
+            System.out.println("Date: " + new SimpleDateFormat("dd-MM-yyyy").format(con.getDate()));
+            pw.println("Date: " + new SimpleDateFormat("dd-MM-yyyy").format(con.getDate()));
+            if(con.getResponseCode() < 400){
+                System.out.println("Last modification: " + new SimpleDateFormat("dd-MM-yyyy").format(con.getLastModified()));
+                pw.println("Last modification: " + new SimpleDateFormat("dd-MM-yyyy").format(con.getLastModified()));
+                System.out.println("Content-Length : " +con.getContentLength());
+                pw.println("Content-Length : " +con.getContentLength());
+                System.out.println("Content Type: " +con.getContentType());
+                pw.println("Content Type: " +con.getContentType());
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer content = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    content.append(inputLine);
+                }
+                in.close();
+                System.out.println();
+                String contentS = content.toString();
+                exchange.sendResponseHeaders(status,contentS.getBytes().length);
+
+                OutputStream os = exchange.getResponseBody();
+                os.write(contentS.getBytes());
+                os.close();
+            }else{
+                exchange.sendResponseHeaders(status,0);
             }
-            in.close();
-            System.out.println();
-            String contentS = content.toString();
-            exchange.sendResponseHeaders(status,contentS.getBytes().length);
-
-            OutputStream os = exchange.getResponseBody();
-            os.write(contentS.getBytes());
-            os.close();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -228,8 +240,12 @@ public class Server {
             pw.println(exchange.getRequestMethod() + " " + exchange.getRequestURI() + " " + exchange.getProtocol());
             System.out.println("Headers:");
             pw.println("Headers:");
-            exchange.getRequestHeaders().entrySet().forEach(System.out::println);
-            exchange.getRequestHeaders().entrySet().forEach(pw::println);
+            for(Map.Entry<String, List<String>> head: exchange.getRequestHeaders().entrySet()){
+                if(head.getValue() != null){
+                    System.out.println(head.getKey() + "=" + head.getValue());
+                    pw.println(head.getKey() + "=" + head.getValue());
+                }
+            }
             BufferedReader br = new BufferedReader(new InputStreamReader((exchange.getRequestBody())));
             StringBuilder sb = new StringBuilder();
             String output;
@@ -237,11 +253,12 @@ public class Server {
               sb.append(output);
             }
             System.out.println("Body:");
+            pw.println("Body:");
             System.out.println(sb.toString());
+            pw.println(sb.toString());
             String mod="";
             String nHost = "";
             boolean cambio= false;
-
             String urlS = exchange.getRequestURI().toString();
             FileVirtual fAux = verificarSV( exchange.getRequestHeaders().get("Host").get(0)) ;
             if(fAux != null){
@@ -257,7 +274,6 @@ public class Server {
             }else{
                 url =  new URL(urlS);
             }
-
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
             con.setDoOutput(true);
@@ -276,41 +292,54 @@ public class Server {
                wr.close();
             }
             System.out.println();
+            pw.println();
             System.out.println("Reenvio Solicitud Servidor Proxy Web:");
+            pw.println("Reenvio Solicitud Servidor Proxy Web:");
             System.out.println(exchange.getRequestMethod() + " " + url.toString() + " " + exchange.getProtocol());
+            pw.println(exchange.getRequestMethod() + " " + url.toString() + " " + exchange.getProtocol());
             System.out.println("Headers:");
-            exchange.getRequestHeaders().entrySet().forEach(System.out::println);
-            exchange.getRequestHeaders().entrySet().forEach(pw::println);
+            pw.println("Headers:");
+            for(Map.Entry<String, List<String>> head: exchange.getRequestHeaders().entrySet()){
+                if(head.getValue() != null){
+                    System.out.println(head.getKey() + "=" + head.getValue());
+                    pw.println(head.getKey() + "=" + head.getValue());
+                }
+            }
             System.out.println("Body:");
             pw.println("Body:");
-            System.out.println(postData);
-            pw.println(postData);
+            System.out.println(sb.toString());
+            pw.println(sb.toString());
             /// Read Response
             int status = con.getResponseCode();
+            System.out.println();
+            pw.println();
             System.out.println("Respuesta Servidor Proxy Web:");
             pw.println("Respuesta Servidor Proxy Web:");
             System.out.println( exchange.getProtocol() +" "+ con.getResponseCode());
             pw.println( exchange.getProtocol() +" "+ con.getResponseCode());
-            System.out.println("Date: " + con.getDate());
-            pw.println("Date: " + con.getDate());
-            System.out.println("Last modification: " + con.getLastModified());
-            pw.println("Last modification: " + con.getLastModified());
-            System.out.println("Content-Length : " +con.getContentLength());
-            pw.println("Content-Length : " +con.getContentLength());
-            System.out.println("Content Type: " +con.getContentType());
-            pw.println("Content Type: " +con.getContentType());
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null)
-                content.append(inputLine);
-            in.close();
-            String contentS = content.toString();
-            exchange.sendResponseHeaders(status,contentS.getBytes().length);
-            OutputStream os = exchange.getResponseBody();
-            os.write(contentS.getBytes());
-            os.close();
+            System.out.println("Date: " + new SimpleDateFormat("dd-MM-yyyy").format(con.getDate()));
+            pw.println("Date: " + new SimpleDateFormat("dd-MM-yyyy").format(con.getDate()));
+            if(con.getResponseCode() < 400){
+                System.out.println("Last modification: " + new SimpleDateFormat("dd-MM-yyyy").format(con.getLastModified()));
+                pw.println("Last modification: " + new SimpleDateFormat("dd-MM-yyyy").format(con.getLastModified()));
+                System.out.println("Content-Length : " +con.getContentLength());
+                pw.println("Content-Length : " +con.getContentLength());
+                System.out.println("Content Type: " +con.getContentType());
+                pw.println("Content Type: " +con.getContentType());
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer content = new StringBuffer();
+                while ((inputLine = in.readLine()) != null)
+                    content.append(inputLine);
+                in.close();
+                String contentS = content.toString();
+                exchange.sendResponseHeaders(status,contentS.getBytes().length);
+                OutputStream os = exchange.getResponseBody();
+                os.write(contentS.getBytes());
+                os.close();
+            }else{
+                exchange.sendResponseHeaders(status,0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
